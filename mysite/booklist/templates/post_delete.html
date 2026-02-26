@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Remove post{% endblock%}
+
+{% block content %}
+
+<div class="content-section">
+    <form method="POST">
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    <fieldset class="form-group">
+        <h2>Are you sure you want to remove the post?</h2>
+        <div class="form-group">
+            <button class="btn btn-outline-danger" type="submit">Yes, remove</button>
+            <a class="btn btn-outline-secondary" href="{% url 'post' post.pk %}">Go back</a>
+        </div>
+    </fieldset>
+    </form>
+</div>
+
+{% endblock %}

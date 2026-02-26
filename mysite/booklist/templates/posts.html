@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Book Talks{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<h2 class="my-4 text-center">Book Talks</h2>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-12">
+        {% if user.is_authenticated %}
+        <a class="btn btn-secondary btn-sm mt-1 mb-4" href="{% url 'post_create' %}">New post</a>
+        {% endif %}
+        {% for post in posts %}
+        <div class="card shadow-sm border-0 mb-4" style="border-radius:14px;">
+            <div class="card-body">
+
+                <!-- Meta Row -->
+                <div class="d-flex align-items-center mb-3">
+
+                    <!-- Profile Photo -->
+                    {% if post.author.photo %}
+                        <img src="{{ post.author.photo.url }}"
+                             class="rounded-circle me-3"
+                             style="width:45px; height:45px; object-fit:cover;">
+                    {% else %}
+                        <img src="{% static 'img/default-profile.png' %}"
+                             class="rounded-circle me-3"
+                             style="width:45px; height:45px; object-fit:cover;">
+                    {% endif %}
+
+                    <!-- Author + Date -->
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold">
+                            <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none">{{ post.author.username }}</a>
+                        </div>
+                        <div class="text-muted" style="font-size:0.85rem;">
+                            {{ post.updated_at|date:"M d, Y" }}
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Title -->
+                <h5 class="fw-bold mb-2">
+                    <a href="{% url 'post' post.id %}"
+                       class="text-dark text-decoration-none">
+                        {{ post.title }}
+                    </a>
+                </h5>
+
+                <!-- Content Preview -->
+                <div class="text-muted" style="line-height:1.6;">
+                    {{ post.content|truncatewords:30 }}
+                </div>
+
+                <div class="fw-semibold mt-2">
+                    <button class="btn btn-link p-0 text-decoration-none like-btn" data-post-id="{{ post.pk }}">
+                        {% if user in post.likes.all %}
+                            ❤️
+                        {% else %}
+                            🤍
+                        {% endif %}
+                        <span class="like-count">{{ post.likes.count }}</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        {% empty %}
+        <div class="text-center text-muted my-5">
+            No posts found
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?q={{ query }}&type={{ search_type }}&page={{ page_obj.previous_page_number }}">
+                Previous
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Previous</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?q={{ query }}&type={{ search_type }}&page={{ num }}">
+                        {{ num }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?q={{ query }}&type={{ search_type }}&page={{ page_obj.next_page_number }}">
+                Next
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

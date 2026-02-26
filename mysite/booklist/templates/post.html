@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Post{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-12">
+
+        <!-- Post Card -->
+        <div class="card shadow-sm border-0 mb-4" style="border-radius:14px;">
+            <div class="card-body">
+
+                <!-- Top Meta Row -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <!-- Author Info -->
+                    <div class="d-flex align-items-center">
+                        {% if post.author.photo %}
+                            <img src="{{ post.author.photo.url }}" class="rounded-circle me-3" style="width:45px; height:45px; object-fit:cover;">
+                        {% else %}
+                            <img src="{% static 'img/default-profile.png' %}" class="rounded-circle me-3" style="width:45px; height:45px; object-fit:cover;">
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">
+                                <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none">{{ post.author.username }}</a>
+                            </div>
+                            <div class="text-muted" style="font-size:0.85rem;">
+                                {{ post.updated_at|date:"M d, Y · H:i" }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit/Delete Buttons -->
+                    {% if user == post.author %}
+                        <div>
+                            <a class="btn btn-warning btn-sm me-2" href="{% url 'post_update' post.pk %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'post_delete' post.pk %}">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Post Title -->
+                <h4 class="fw-bold mb-3">{{ post.title }}</h4>
+
+                <!-- Post Content -->
+                <div style="line-height:1.6;">{{ post.content|linebreaks }}</div>
+
+                <!-- Like Button -->
+                <div class="fw-semibold mt-3">
+                    <button class="btn btn-link p-0 text-decoration-none like-btn" data-post-id="{{ post.pk }}">
+                        {% if user in post.likes.all %}❤️{% else %}🤍{% endif %}
+                        <span class="like-count">{{ post.likes.count }}</span>
+                    </button>
+                </div>
+
+                <!-- Comment Section -->
+                <div class="mt-4">
+                    <h5 class="fw-semibold mb-3">Comments</h5>
+
+                    {% if user.is_authenticated %}
+                    <form method="POST" class="mb-4">
+                        {% csrf_token %}
+                        <div class="mb-2">
+                            {{ form.content }}
+                        </div>
+                        <button type="submit" class="btn btn-dark btn-sm">Post Comment</button>
+                    </form>
+                    {% else %}
+                        <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+                    {% endif %}
+
+                    <!-- Comment List -->
+                    {% for comment in comments %}
+                    <div class="card shadow-sm border-0 mb-3" style="border-radius:12px; padding:12px;">
+                        <div class="d-flex align-items-center mb-1">
+                            {% if comment.author.photo %}
+                                <img src="{{ comment.author.photo.url }}" class="rounded-circle me-2" style="width:30px; height:30px; object-fit:cover;">
+                            {% else %}
+                                <img src="{% static 'img/default-profile.png' %}" class="rounded-circle me-2" style="width:30px; height:30px; object-fit:cover;">
+                            {% endif %}
+                            <strong>{{ comment.author.username }}</strong>
+                            <small class="text-muted ms-2" style="font-size:0.8rem;">{{ comment.created_at|date:"M d, Y · H:i" }}</small>
+                        </div>
+                        <div style="line-height:1.4;">{{ comment.content|linebreaks }}</div>
+                    </div>
+                    {% empty %}
+                        <p class="text-muted">No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

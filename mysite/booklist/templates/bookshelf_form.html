@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Book add/update{% endblock%}
+
+{% block content %}
+
+<div class="content-section">
+  <form method="post">
+    {% csrf_token %}
+    {% load crispy_forms_tags %}
+    <legend class="border-bottom mb-4">Book add/update</legend>
+    {{ form | crispy }}
+    <div class="form-group">
+      <button class="btn btn-outline-info" type="submit">Save</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

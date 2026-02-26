@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h1 class="card-title mb-3">About Us</h1>
+                <p class="card-text">
+                    Welcome to <strong>Books&More</strong>, a vibrant community for book lovers of all kinds!
+                    Whether you’re a lifelong reader or just discovering your love for stories, our platform
+                    brings together people who share your passion.
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-start border-4 border-primary">
+            <div class="card-body">
+                <h3 class="card-title mb-3">📚 Share & Discover Books</h3>
+                <p class="card-text">
+                    Create your <strong>personal book list</strong>, track what you’ve read, what you’re currently reading,
+                    and what’s on your must-read list. Organize your collection, rate your favorites, and write mini-reviews
+                    to help others find their next great read.
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-start border-4 border-success">
+            <div class="card-body">
+                <h3 class="card-title mb-3">💬 Join the Conversation</h3>
+                <p class="card-text">
+                    Our <strong>Book Talks Forum</strong> is a space where readers meet to discuss books, swap recommendations,
+                    and dive into thought-provoking debates. Start your own discussion or participate in existing threads —
+                    the community is waiting to hear your thoughts.
+                </p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-start border-4 border-warning">
+            <div class="card-body">
+                <h3 class="card-title mb-3">🌟 Why We’re Different</h3>
+                <p class="card-text">
+                    We combine the fun of a social book club with the organization of a personal library.
+                    Your reading journey is more than private — it’s a shared experience. Connect, explore,
+                    and grow your love for reading with others who understand your passion.
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <a href="{% url 'signup' %}" class="btn btn-lg btn-dark shadow-sm">
+                Join Us Today & Start Your Adventure!
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

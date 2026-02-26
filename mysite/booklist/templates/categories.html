@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    {% for letter, cats in categories_dict.items %}
+        {% if cats %}
+            <h4 class="mt-4">{{ letter }}</h4>
+            <div class="row g-3 mb-3">
+                {% for category in cats %}
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="p-2 shadow-sm border rounded text-center">
+                            <a href="{% url 'category_book' category.id %}" class="text-decoration-none text-dark fw-bold">{{ category }}</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block title %}Book Entry{% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-12">
+
+        <div class="card shadow border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                    {% if user == bookshelf_book.user %}
+                    <div class="d-flex justify-content-end gap-2 mb-3">
+
+                        <a href="{% url 'bookshelf_update' bookshelf_book.pk %}"
+                           class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                            ✏ Edit
+                        </a>
+
+                        <a href="{% url 'bookshelf_delete' bookshelf_book.pk %}"
+                           class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                            🗑 Remove
+                        </a>
+
+                    </div>
+                    {% endif %}
+
+                <!-- Top Section -->
+                <div class="d-flex justify-content-between align-items-start my-4">
+
+                    <!-- Book Info -->
+                    <div class="d-flex align-items-start">
+
+                        {% if bookshelf_book.book.thumbnail %}
+                            <img src="{{ bookshelf_book.book.thumbnail }}"
+                                 class="rounded shadow-sm me-4"
+                                 style="width:90px; height:130px; object-fit:cover;">
+                        {% else %}
+                            <img src="{% static 'img/no-image.png' %}"
+                                 class="rounded shadow-sm me-4"
+                                 style="width:90px; height:130px; object-fit:cover;">
+                        {% endif %}
+
+                        <div>
+                            <h4 class="fw-bold mb-1">
+                                {{ bookshelf_book.book.title }}
+                            </h4>
+
+                            <div class="text-muted mb-2">
+                                {{ bookshelf_book.book.display_authors }}
+                            </div>
+
+                            <!-- Meta Info -->
+                            <div class="d-flex flex-wrap gap-2">
+
+                                <span class="badge bg-secondary-subtle text-dark">
+                                    {{ bookshelf_book.get_type_display }}
+                                </span>
+
+                                <span class="badge
+                                    {% if bookshelf_book.status == 'c' %}
+                                        bg-success
+                                    {% elif bookshelf_book.status == 'r' %}
+                                        bg-warning text-dark
+                                    {% elif bookshelf_book.status == 'd' %}
+                                        bg-danger
+                                    {% else %}
+                                        bg-secondary
+                                    {% endif %}
+                                ">
+                                    {{ bookshelf_book.get_status_display }}
+                                </span>
+
+                                <span class="badge bg-dark">
+                                    ⭐ {{ bookshelf_book.rating }}/10
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="text-end text-muted small">
+                        Added<br>
+                        {{ bookshelf_book.updated_at|date:"M d, Y" }}
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Review -->
+                <div>
+                    <h6 class="fw-semibold mb-3">Your Review</h6>
+
+                    {% if bookshelf_book.comment %}
+                        <div style="line-height:1.7;">
+                            {{ bookshelf_book.comment|linebreaks }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No review written.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center">
+            <a href="{% url 'bookshelf' %}" class="btn btn-outline-dark rounded-pill px-4">
+                ← Back to Bookshelf
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
