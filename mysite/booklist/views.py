@@ -3,7 +3,6 @@ from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, UpdateView
 from django.views.generic.edit import FormMixin
-
 from .models import Book, Bookshelf, Category, CustomUser,Post
 from .utils import store_books_by_title, store_books_by_author
 from .forms import CustomUserCreateForm, CustomUserChangeForm, PostCreateUpdateForm, BookshelfCreateUpdateForm,FavoriteUpdateForm, CommentForm
@@ -225,8 +224,7 @@ def toggle_like_ajax(request, pk):
         'total_likes': post.likes.count()
     })
 
-from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class BookshelfListView(LoginRequiredMixin, generic.ListView):
     model = Bookshelf

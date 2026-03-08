@@ -24,7 +24,7 @@
                         {% endif %}
                         <div class="flex-grow-1">
                             <div class="fw-semibold">
-                                <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none">{{ post.author.username }}</a>
+                                <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none fw-bold">{{ post.author.username }}</a>
                             </div>
                             <div class="text-muted" style="font-size:0.85rem;">
                                 {{ post.updated_at|date:"M d, Y · H:i" }}
@@ -80,7 +80,7 @@
                             {% else %}
                                 <img src="{% static 'img/default-profile.png' %}" class="rounded-circle me-2" style="width:30px; height:30px; object-fit:cover;">
                             {% endif %}
-                            <strong>{{ comment.author.username }}</strong>
+                            <a href="{% url 'public_profile' comment.author.username %}" class="text-dark text-decoration-none fw-bold">{{ comment.author.username }}</a>
                             <small class="text-muted ms-2" style="font-size:0.8rem;">{{ comment.created_at|date:"M d, Y · H:i" }}</small>
                         </div>
                         <div style="line-height:1.4;">{{ comment.content|linebreaks }}</div>

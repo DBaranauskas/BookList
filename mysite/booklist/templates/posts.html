@@ -33,7 +33,7 @@
                     <!-- Author + Date -->
                     <div class="flex-grow-1">
                         <div class="fw-semibold">
-                            <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none">{{ post.author.username }}</a>
+                            <a href="{% url 'public_profile' post.author.username %}" class="text-dark text-decoration-none fw-bold">{{ post.author.username }}</a>
                         </div>
                         <div class="text-muted" style="font-size:0.85rem;">
                             {{ post.updated_at|date:"M d, Y" }}

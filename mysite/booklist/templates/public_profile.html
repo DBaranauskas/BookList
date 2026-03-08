@@ -79,7 +79,7 @@
                     {% endif %}
                 </div>
 
-                {% if not profile_user.is_profile_private %}
+                {% if not profile_user.is_profile_private or user.is_profile_user %}
 
                     <ul class="list-group list-group-flush">
                         {% for book in favorite_books %}
