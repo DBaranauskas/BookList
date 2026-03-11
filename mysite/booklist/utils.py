@@ -47,6 +47,7 @@ def search_books_by_title(user_query, max_results=20):
 
         published_date = volume_info.get('publishedDate', '').strip()
 
+        # Add book information to books dictionary
         books.append({
             'google_books_id': item.get('id'),
             'title': title,
